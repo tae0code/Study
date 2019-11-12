@@ -1,5 +1,4 @@
-
-[함태영] [오후 10:01] # Chapter3; 함수 vs 블록 스코프
+# Chapter3; 함수 vs 블록 스코프
 
 ## 1. 함수 기반 스코프
 ```javascript
