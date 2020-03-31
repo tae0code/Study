@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components/native';
 import Button from '~/Components/Button';
+import { PanResponder } from 'react-native';
 
 const Container = Styled.SafeAreaView`
     flex: 1;
@@ -42,27 +43,75 @@ interface Props{
 }
 
 
+interface State{
+    count: number;
+    error: boolean;
+}
 
-const Counter = ({ title, initValue }: Props) =>{
-    const [count, setCount] = useState<number>(0);
-    
-    return(
-        <Container>
-            {title && (
-                <TitleContainer>
-                    <TitleLabel>{title}</TitleLabel>
-                </TitleContainer>
-            )}
-            <CountContainer>
-                <CountLabel>{initValue + count}</CountLabel>
-            </CountContainer>
-            <ButtonContainer>
-                <Button iconName="plus" onPress={() => setCount(count+1)}/>
-                <Button iconName="minus" onPress={() => setCount(count-1)}/>
-            </ButtonContainer>
+class Counter extends React.Component<Props, State>{
+    constructor(props: Props){
+        super(props);
+        console.log('constructor');
 
-        </Container>
-    );
-};
+        this.state = {
+            count: props.initValue,
+            error: false,
+        };
+    }
+    render(){
+        const {title} = this.props;
+        const {count, error} = this.state;
+        return(
+            <Container>
+                {!error && (
+                    <>
+                    {title && (
+                        <TitleContainer>
+                            <TitleLabel>{title}</TitleLabel>
+                        </TitleContainer>
+                    )}
+                    <CountContainer>
+                        <CountLabel>{count}</CountLabel>
+                    </CountContainer>
+                    <ButtonContainer>
+                        <Button iconName="plus" onPress={() => this.setState({count: count+1})}/>
+                    </ButtonContainer>
+                    <ButtonContainer>
+                        <Button iconName="minus" onPress={() => this.setState({count: count-1})}/>
+                    </ButtonContainer>
+                    </>
+                )}
+            </Container>
+        );
+    }
+    static getDerivedStateFromProps(nextProps: Props, prevState: State){
+        console.log('getDerivedStateFromProps');
+        return null;
+    }
+    componentDidMount(){
+        console.log('componentDidMount');
+    }
+    getSnapshotBeforeUpdate(prevProps: Props, prevState: State){
+        console.log('getSnapshotBeforeUpdate');
+        return{
+            testDate: true,
+        };
+    }
+    componentDidUpdate(prevProps: Props, prevState: State, snapshot: ISnapshot){
+        console.log('componentDidUpdate');
+    }
+    shouldComponentUpdate(nextProps: Props, nextState: State){
+        console.log('shouldComponentUpdate');
+        return true;
+    }
+    componentWillUnmount(){
+        console.log('componentWillUnmount');
+    }
+    componentDidCatch(error: Error, info: React.ErrorInfo){
+        this.setState({
+            error: true,
+        });
+    }
+}
 
 export default Counter;
