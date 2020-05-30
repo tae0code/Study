@@ -16,7 +16,7 @@ int dp(int s, int e){
         if(e_i<s) continue;
         int s_max = s_i>s ? s_i : s;
         int e_max = e_i>e ? e_i : e;
-        mm = max(mm, dp(s_max-s_i, e_max-s_i)+1);
+        mm = max(mm, dp(s_max-s_i, e_max-s_i)+i);
     }
     return m[{s,e}] = mm;
 }
